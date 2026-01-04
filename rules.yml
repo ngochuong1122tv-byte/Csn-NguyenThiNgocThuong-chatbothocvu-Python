@@ -1,0 +1,140 @@
+version: "3.1"
+
+rules:
+
+- rule: chào hỏi
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- rule: người dùng muốn được hướng dẫn ttsv
+  steps:
+  - intent: affirm
+  - action: utter_guide_ttsv
+
+- rule: người dùng không muốn hướng dẫn ttsv
+  steps:
+  - intent: deny
+  - action: utter_greet
+
+- rule: hỏi lịch học rồi hỏi hướng dẫn ttsv
+  steps:
+  - intent: ask_schedule
+  - action: utter_show_schedule
+  - action: utter_ask_guide_ttsv
+
+- rule: hỏi lịch thi rồi hỏi hướng dẫn ttsv
+  steps:
+  - intent: ask_exam
+  - action: utter_show_exam
+  - action: utter_ask_guide_ttsv
+
+- rule: hỏi thủ tục học vụ rồi hỏi hướng dẫn ttsv
+  steps:
+  - intent: ask_academic_procedure
+  - action: utter_show_procedure
+  - action: utter_ask_guide_ttsv
+
+- rule: người dùng muốn hỏi thêm
+  steps:
+  - intent: affirm_more_help
+  - action: utter_greet
+
+- rule: không hỏi thêm
+  steps:
+  - intent: deny_more_help
+  - action: utter_goodbye
+
+- rule: Xem sử dụng kết quả rèn luyện
+  steps:
+    - intent: drl_su_dung
+    - action: utter_drl_su_dung
+    - action: utter_ask_more_help
+
+- rule: hỏi về học vụ
+  steps:
+    - intent: ask_academic_affairs
+    - action: utter_ask_view_academic_forms
+
+- rule: xem danh sách biểu mẫu học vụ
+  steps:
+    - intent: ask_academic_forms
+    - action: utter_ask_view_academic_forms
+
+
+- rule: từ chối xem biểu mẫu học vụ
+  steps:
+    - intent: deny_academic
+    - action: utter_ok_no_problem
+
+- rule: fallback
+  steps:
+  - intent: nlu_fallback
+  - action: utter_fallback
+
+- rule: Mở menu thủ tục học vụ
+  steps:
+    - intent: procedure_menu
+    - action: utter_procedure_menu
+
+- rule: xin chuyển ngành
+  steps:
+    - intent: procedure_convert
+    - action: utter_procedure_convert
+
+- rule: Xin tạm nghỉ / bảo lưu kết quả
+  steps:
+    - intent: procedure_reserve
+    - action: utter_procedure_reserve
+
+- rule: Học lại / cải thiện theo hình thức mở lớp riêng
+  steps:
+    - intent: procedure_retake
+    - action: utter_procedure_retake
+
+- rule: Bổ sung và rút học phần
+  steps:
+    - intent: procedure_drop
+    - action: utter_procedure_drop
+
+- rule: Xem học phí theo ngành
+  steps:
+    - intent: ask_tuition
+    - action: utter_ask_major_tuition
+  
+- rule: Hiển thị học phí sau khi chọn ngành
+  steps:
+    - intent: inform_major
+    - action: action_show_tuition
+
+
+- rule: Kích hoạt tính học phí theo tín chỉ
+  steps:
+    - intent: ask_tuition_credit
+    - action: utter_ask_tc_co_so
+
+- rule: Nhập tín chỉ cơ sở
+  steps:
+    - intent: inform_tc_co_so
+    - action: utter_ask_tc_chuyen_nganh
+
+- rule: Nhập tín chỉ chuyên ngành
+  steps:
+    - intent: inform_tc_chuyen_nganh
+    - action: action_calculate_tuition_by_major
+
+- rule: Menu điểm rèn luyện
+  steps:
+    - intent: ask_program
+    - action: utter_drl_menu
+
+- rule: Xem quy trình đánh giá rèn luyện
+  steps:
+    - intent: drl_quy_trinh
+    - action: utter_drl_quy_trinh
+
+- rule: Xem phân loại rèn luyện
+  steps:
+    - intent: drl_phan_loai
+    - action: utter_drl_phan_loai
+

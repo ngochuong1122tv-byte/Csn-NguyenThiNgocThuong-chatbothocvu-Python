@@ -1,0 +1,303 @@
+version: "3.1"
+
+intents:
+  - greet
+  - ask_tuition
+  - ask_tuition_credit
+  - inform_tc_co_so
+  - inform_tc_chuyen_nganh
+  - ask_major_tuition
+  - inform_major
+  - ask_schedule
+  - ask_exam
+  - ask_program
+  - ask_academic_procedure
+  - affirm
+  - deny
+  - nlu_fallback
+  - open_form
+  - procedure_menu
+  - procedure_convert
+  - procedure_reserve
+  - procedure_retake
+  - procedure_drop
+  - ask_diem_ren_luyen
+  - drl_quy_trinh
+  - drl_phan_loai
+entities:
+  - major
+  - form
+  - tc_co_so
+  - tc_chuyen_nganh
+slots:
+  major:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: major
+      
+  form:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: form 
+  
+  tc_co_so:
+    type: float
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: tc_co_so
+
+  tc_chuyen_nganh:
+    type: float
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: tc_chuyen_nganh
+forms:
+  tuition_form:
+    required_slots:
+      - major
+      - tc_co_so
+      - tc_chuyen_nganh
+
+
+actions:
+  - action_show_tuition
+  - action_show_procedure
+  - action_reset_major
+  - action_calculate_tuition_by_major
+
+responses:
+
+  utter_greet:
+    - text: "Chào bạn! Tôi là chatbot tư vấn học vụ cho sinh viên Trường Đại học Trà Vinh. Bạn muốn xem thông tin nào?"
+      buttons:
+        - title: "Lịch học"
+          payload: "/ask_schedule"
+        - title: "Lịch thi"
+          payload: "/ask_exam"
+        - title: "Điểm rèn luyện"
+          payload: "/ask_program"
+        - title: "Học phí"
+          payload: "/ask_tuition"
+        - title: "Thủ tục học vụ"
+          payload: "/ask_academic_procedure"
+
+  utter_ask_tc_co_so:
+    - text: "Bạn đăng ký bao nhiêu tín chỉ cơ sở?"
+
+  utter_ask_tc_chuyen_nganh:
+    - text: "Bạn đăng ký bao nhiêu tín chỉ chuyên ngành?"
+
+  utter_show_schedule:
+    - text: "Lịch học (TKB) được công bố trên hệ thống sinh viên."
+
+  utter_show_exam:
+    - text: "Lịch thi được công bố theo từng học kỳ."
+
+  utter_ask_guide_ttsv:
+    - text: "Bạn có muốn mình hướng dẫn đăng nhập hệ thống TTSV để xem chi tiết không?"
+      buttons:
+        - title: "✅ Có"
+          payload: "/affirm"
+        - title: "❌ Không"
+          payload: "/deny"
+
+  utter_guide_ttsv:
+    - text: |
+          Hướng dẫn đăng nhập hệ thống TTSV
+            Truy cập website TTSV của trường  
+            Tên đăng nhập: Mã sinh viên  
+            Mật khẩu: Ngày sinh (dd/mm/yyyy)  
+            Sau khi đăng nhập, chọn mục cần xem
+
+          Nếu quên mật khẩu, vui lòng liên hệ Phòng Công tác Sinh viên.
+
+      buttons:
+        - title: "⬅️ Quay lại menu"
+          payload: "/greet"
+
+  
+
+
+  utter_ask_major_tuition:
+    - text: " Bạn vui lòng chọn ngành để xem học phí:"
+      buttons:
+        - title: "Công nghệ thông tin"
+          payload: /inform_major{"major":"công nghệ thông tin"}
+        - title: "Kỹ thuật xây dựng"
+          payload: /inform_major{"major":"kỹ thuật xây dựng"}
+        - title: "Ngôn ngữ Anh"
+          payload: /inform_major{"major":"ngôn ngữ anh"}
+        - title: "Điều dưỡng"
+          payload: /inform_major{"major":"điều dưỡng"}
+
+
+
+  utter_ask_more_help:
+    - text: "Bạn có muốn hỏi thêm thông tin nào nữa không?"
+      buttons:
+        - title: "✅ Có"
+          payload: "/affirm_more_help"
+        - title: "❌ Không"
+          payload: "/deny_more_help"
+
+  utter_ask_view_academic_forms:
+    - text: |
+        Bạn có muốn xem các biểu mẫu về học vụ này không?
+      buttons:
+        - title: Có
+          payload: /affirm_academic
+        - title: Không
+          payload: /deny_academic
+
+  utter_ok_no_problem:
+    - text: |
+        Vâng, nếu bạn cần hỗ trợ học vụ hoặc nội dung khác, cứ hỏi tôi nhé!
+
+  utter_goodbye:
+    - text: "Rất vui vì được tư vấn cho bạn. Chúc bạn một ngày tốt lành! 🌷"
+
+  utter_show_procedure:
+    - text: |
+        Thủ tục học vụ - biểu mẫu sinh viên 
+        Vui lòng chọn biểu mẫu bạn muốn xem chi tiết:
+      buttons:
+        - title: "Đơn xin chuyển ngành"
+          payload: "/procedure_convert"
+        - title: "xin tạm nghỉ / bảo lưu kết quả học tập"
+          payload: "/procedure_reserve"
+        - title: "Đăng ký học lại / cải thiện theo hình thức mở lớp riêng"
+          payload: "/procedure_retake"
+        - title: "Bổ sung và rút bớt học phần"
+          payload: "/procedure_drop"
+
+  utter_drl_menu:
+    - text: "ĐIỂM RÈN LUYỆN SINH VIÊN \nBạn muốn xem nội dung nào?"
+      buttons:
+        - title: "I. Quy trình đánh giá"
+          payload: "/drl_quy_trinh"
+        - title: "II. Phân loại - xếp loại"
+          payload: "/drl_phan_loai"
+        - title: "III. Sử dụng kết quả"
+          payload: "/drl_su_dung"
+
+  utter_drl_quy_trinh:
+    - text: |
+        I. Quy trình đánh giá kết quả rèn luyện
+
+        1 Sinh viên truy cập hệ thống:
+        👉 http://drl.tvu.edu.vn  
+        Đăng nhập bằng **mã số sinh viên**, tự đánh giá theo quy định.
+
+        2 Họp lớp (có cố vấn học tập):
+          + Xem xét minh chứng  
+          + Thông qua nếu quá nửa ý kiến đồng ý  
+          + Có biên bản kèm theo.
+
+        3 Cố vấn học tập xác nhận, nhà trường tổng hợp.
+
+        4 Hội đồng cấp Trường xét duyệt, trình Hiệu trưởng.
+
+        5 Kết quả được công bố công khai **trước ít nhất 20 ngày**.
+
+        ⬅️ Bạn có thể chọn mục khác bên dưới.
+
+  utter_drl_phan_loai:
+    - text: |
+        II. Phân loại để đánh giá kết quả rèn luyện
+
+        🔹 SV bị **khiển trách** → không vượt quá **Khá**  
+        🔹 SV bị **cảnh cáo** → không vượt quá **Trung bình**  
+        🔹 SV bị **đình chỉ học tập** → không đánh giá  
+        🔹 SV bị **buộc thôi học** → không đánh giá  
+
+        🔹 SV hoàn thành chương trình chậm → vẫn được đánh giá ở kỳ bổ sung  
+        🔹 SV khuyết tật / hoàn cảnh khó khăn → được ưu tiên, động viên  
+        🔹 SV học 2 chương trình → đánh giá tại chương trình chính  
+        🔹 SV chuyển trường → được bảo lưu kết quả
+
+        Thang điểm xếp loại
+        • 90 - 100: Xuất sắc  
+        • 80 - <90: Tốt  
+        • 65 - <80: Khá  
+        • 50 - <65: Trung bình  
+        • 35 - <50: Yếu  
+        • <35: Kém
+
+  utter_drl_su_dung:
+    - text: |
+        **III. Sử dụng kết quả rèn luyện**
+
+        📌 Dùng để xét:
+        + Học bổng, khen thưởng - kỷ luật  
+        + Thôi học, ngừng học  
+        + Lưu trú ký túc xá  
+        + Việc làm thêm, miễn giảm chi phí
+
+        📌 Kết quả toàn khóa:
+        + Làm căn cứ xét tốt nghiệp  
+        + Ghi vào bảng điểm khi ra trường  
+
+        ⚠️ SV xếp loại **Yếu/Kém 2 học kỳ liên tiếp**:
+        + Lần 1: Tạm ngừng học 1 học kỳ  
+        + Lần 2: **Buộc thôi học**
+
+
+  utter_procedure_menu:
+    - text: "Thủ tục học vụ bao gồm:"
+      buttons:
+        - title: " Đơn xin chuyển ngành"
+          payload: "/procedure_convert"
+        - title: " Xin tạm nghỉ / bảo lưu kết quả học tập"
+          payload: "/procedure_reserve"
+        - title: " Đăng ký học lại / cải thiện theo hình thức mở lớp riêng"
+          payload: "/procedure_retake"
+        - title: " Bổ sung và rút bớt học phần"
+          payload: "/procedure_drop"
+  utter_procedure_convert:
+    - text: |
+        Dơn xin chuyển ngành
+
+        <a href="https://ngochuong1122tv-byte.github.io/academic-forms/Don_xin_chuyen_nganh.doc"
+           target="_blank">
+           👉 Nhấn vào đây để mở biểu mẫu
+        </a>
+
+
+  utter_procedure_reserve:
+    - text: |
+        Xin tạm nghỉ / bảo lưu kết quả học tập
+
+        <a href="https://ngochuong1122tv-byte.github.io/academic-forms/Don_de_nghi_tam_dung_hoc_tap.doc"
+           target="_blank">
+           👉 Nhấn vào đây để mở biểu mẫu
+        </a>
+
+  utter_procedure_retake:
+    - text: |
+        Đăng ký học lại / cải thiện theo hình thức mở lớp riêng
+
+        <a href="https://ngochuong1122tv-byte.github.io/academic-forms/Don_xin_mo_lop_rieng.doc"
+           target="_blank">
+           👉 Nhấn vào đây để mở biểu mẫu
+        </a>
+
+  utter_procedure_drop:
+    - text: |
+        Bổ sung và rút bớt học phần
+
+        <a href="https://ngochuong1122tv-byte.github.io/academic-forms/Don_xin_bo_sung_rut_hoc_phan.docx"
+           target="_blank">
+           👉 Nhấn vào đây để mở biểu mẫu
+        </a>
+  utter_ask_major:
+    - text: " Bạn đang học ngành nào?"
+
+
+  utter_fallback:
+    - text: "Mình chưa hiểu câu hỏi. Bạn hãy chọn một mục bên dưới nhé."

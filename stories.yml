@@ -1,0 +1,22 @@
+version: "3.1"
+
+stories:
+
+- story: Người dùng hỏi thủ tục học vụ
+  steps:
+    - intent: procedure_menu
+    - action: utter_procedure_menu
+
+- story: xin chuyển ngành
+  steps:
+    - intent: procedure_convert
+    - action: utter_procedure_convert
+
+- story: Tính học phí theo tín chỉ
+  steps:
+    - intent: ask_tuition_credit
+    - action: utter_ask_tc_co_so
+    - intent: inform_tc_co_so
+    - action: utter_ask_tc_chuyen_nganh
+    - intent: inform_tc_chuyen_nganh
+    - action: action_calculate_tuition_by_major

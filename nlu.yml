@@ -1,0 +1,222 @@
+version: "3.1"
+
+nlu:
+
+- intent: greet
+  examples: |
+    - xin chào
+    - chào bạn
+    - hello
+    - hi
+    - chào chatbot
+    - alo
+    - tôi muốn tư vấn học vụ
+    - ê
+- intent: ask_tuition
+  examples: |
+    - cho mình xem học phí
+    - học phí bao nhiêu
+    - tư vấn học phí
+    - học phí trường mình là bao nhiêu
+
+- intent: inform_major
+  examples: |
+    - cntt
+    - công nghệ thông tin
+    - kỹ thuật xây dựng
+    - kinh tế
+    - du lịch
+    - điều dưỡng
+    - ngôn ngữ anh
+    - CÔNG NGHỆ THÔNG TIN
+    - KỸ THUẬT XÂY DỰNG
+    - ĐIỀU DƯỠNG
+    - NGÔN NGỮ ANH
+
+
+- intent: ask_schedule
+  examples: |
+    - xem lịch học
+    - thời khóa biểu đâu
+    - lịch học kỳ này thế nào
+
+- intent: ask_exam
+  examples: |
+    - lịch thi khi nào
+    - cho em xem lịch thi
+    - kỳ này thi ngày nào
+
+- intent: ask_lich_thi_mon_hoc
+  examples: |
+    - lịch thi môn Toán cao cấp
+    - khi nào thi môn Lập trình Python
+    - lịch thi của môn Cơ sở dữ liệu
+    - môn này thi lúc nào?
+
+- intent: affirm
+  examples: |
+    - có
+    - có nhé
+    - có ạ
+    - ok
+    - yes
+
+- intent: deny
+  examples: |
+    - không
+    - không cần
+    - thôi
+    - không hỏi nữa
+    - no
+
+- intent: affirm_academic
+  examples: |
+    - có
+    - có nhé
+    - có ạ
+    - ok
+    - yes
+
+- intent: deny_academic
+  examples: |
+    - không
+    - không cần
+    - thôi
+    - không hỏi nữa
+    - no
+
+- intent: affirm_more_help
+  examples: |
+    - có
+    - có hỏi thêm
+    - được
+
+- intent: deny_more_help
+  examples: |
+    - không
+    - không cần
+    - thôi
+- intent: open_form
+  examples: |
+    - mở đơn bảo lưu
+    - mở đơn rút học phần
+    - mở đơn học lại
+    - mở đơn xác nhận sinh viên
+
+
+- intent: ask_academic_forms
+  examples: |
+    - cho tôi xem các biểu mẫu học vụ
+    - biểu mẫu học vụ
+    - các mẫu đơn sinh viên
+    - đơn xin bảo lưu
+    - đơn xin rút học phần
+
+- intent: ask_academic_affairs
+  examples: |
+    - tôi muốn hỏi về học vụ
+    - học vụ là gì
+    - thủ tục học vụ
+    - em cần hỗ trợ học vụ
+    - vấn đề học vụ
+
+- intent: procedure_menu
+  examples: |
+    - thủ tục học vụ
+    - các thủ tục học vụ
+    - học vụ
+    - cần hỗ trợ học vụ
+    - vấn đề học vụ
+
+- intent: procedure_convert
+  examples: |
+    - xin chuyển ngành
+    - đổi ngành
+    - thủ tục chuyển ngành
+
+- intent: procedure_reserve
+  examples: |
+    - bảo lưu
+    - bảo lưu kết quả
+    - thủ tục bảo lưu
+
+- intent: procedure_retake
+  examples: |
+    - học lại
+    - học cải thiện
+    - đăng ký học lại
+
+- intent: procedure_drop
+  examples: |
+    - rút học phần
+    - rút bớt môn
+    - rút môn học
+
+- intent: ask_tuition_credit
+  examples: |
+    - tính học phí
+    - tính tiền học phí
+    - tôi muốn biết học phí
+
+- intent: inform_tc_co_so
+  examples: |
+    - 10
+    - 12 
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 11
+
+- intent: inform_tc_chuyen_nganh
+  examples: |
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 9
+    - 11
+    - 8
+    - 10 
+
+- intent: ask_program
+  examples: |
+    - điểm rèn luyện
+    - xem điểm rèn luyện
+    - điểm rèn luyện sinh viên
+    - đánh giá rèn luyện
+    - rèn luyện sinh viên
+
+- intent: drl_quy_trinh
+  examples: |
+    - quy trình đánh giá rèn luyện
+    - quy trình điểm rèn luyện
+    - cách đánh giá điểm rèn luyện
+    - quy trình rèn luyện sinh viên
+    - xem mục 1 điểm rèn luyện
+    - quy trình đánh giá
+
+- intent: drl_phan_loai
+  examples: |
+    - phân loại điểm rèn luyện
+    - xếp loại rèn luyện
+    - các mức điểm rèn luyện
+    - thang điểm rèn luyện
+    - điểm rèn luyện loại khá tốt
+    - xem mục 2 điểm rèn luyện
+
+- intent: drl_su_dung
+  examples: |
+    - sử dụng kết quả rèn luyện
+    - điểm rèn luyện dùng để làm gì
+    - kết quả rèn luyện dùng khi nào
+    - xét học bổng bằng điểm rèn luyện
+    - xem mục 3 điểm rèn luyện
