@@ -12,27 +12,39 @@ nlu:
     - alo
     - tôi muốn tư vấn học vụ
     - ê
-- intent: ask_tuition
+- intent: ask_tuition_general
   examples: |
-    - cho mình xem học phí
-    - học phí bao nhiêu
-    - tư vấn học phí
-    - học phí trường mình là bao nhiêu
+    - học phí ngành công nghệ thông tin bao nhiêu
+    - cho tôi xem học phí ngành điều dưỡng
+    - học phí ngành này là bao nhiêu
+
+- intent: ask_tuition_by_credit
+  examples: |
+    - tính học phí theo tín chỉ
+    - tôi muốn tính học phí theo số tín chỉ
+    - tính tiền học theo tín chỉ
+
+- intent: choose_major
+  examples: |
+    - Công nghệ thông tin
+    - Kỹ thuật xây dựng
+    - Điều dưỡng
+    - Ngôn ngữ Anh
+
+
 
 - intent: inform_major
   examples: |
-    - cntt
-    - công nghệ thông tin
-    - kỹ thuật xây dựng
-    - kinh tế
-    - du lịch
-    - điều dưỡng
-    - ngôn ngữ anh
-    - CÔNG NGHỆ THÔNG TIN
-    - KỸ THUẬT XÂY DỰNG
-    - ĐIỀU DƯỠNG
-    - NGÔN NGỮ ANH
+    - ngành công nghệ thông tin
+    - ngành kỹ thuật xây dựng
+    - mình học ngành điều dưỡng
 
+
+- intent: ask_tuition
+  examples: |
+    - xem học phí
+    - học phí ngành
+    - học phí bao nhiêu
 
 - intent: ask_schedule
   examples: |
@@ -53,49 +65,6 @@ nlu:
     - lịch thi của môn Cơ sở dữ liệu
     - môn này thi lúc nào?
 
-- intent: affirm
-  examples: |
-    - có
-    - có nhé
-    - có ạ
-    - ok
-    - yes
-
-- intent: deny
-  examples: |
-    - không
-    - không cần
-    - thôi
-    - không hỏi nữa
-    - no
-
-- intent: affirm_academic
-  examples: |
-    - có
-    - có nhé
-    - có ạ
-    - ok
-    - yes
-
-- intent: deny_academic
-  examples: |
-    - không
-    - không cần
-    - thôi
-    - không hỏi nữa
-    - no
-
-- intent: affirm_more_help
-  examples: |
-    - có
-    - có hỏi thêm
-    - được
-
-- intent: deny_more_help
-  examples: |
-    - không
-    - không cần
-    - thôi
 - intent: open_form
   examples: |
     - mở đơn bảo lưu
@@ -118,14 +87,6 @@ nlu:
     - học vụ là gì
     - thủ tục học vụ
     - em cần hỗ trợ học vụ
-    - vấn đề học vụ
-
-- intent: procedure_menu
-  examples: |
-    - thủ tục học vụ
-    - các thủ tục học vụ
-    - học vụ
-    - cần hỗ trợ học vụ
     - vấn đề học vụ
 
 - intent: procedure_convert
@@ -158,34 +119,21 @@ nlu:
     - tính tiền học phí
     - tôi muốn biết học phí
 
-- intent: inform_tc_co_so
+- intent: inform_number
   examples: |
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
     - 10
-    - 12 
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-    - 7
-    - 8
-    - 9
     - 11
+    - 12
 
-- intent: inform_tc_chuyen_nganh
-  examples: |
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-    - 7
-    - 9
-    - 11
-    - 8
-    - 10 
 
 - intent: ask_program
   examples: |
@@ -220,3 +168,72 @@ nlu:
     - kết quả rèn luyện dùng khi nào
     - xét học bổng bằng điểm rèn luyện
     - xem mục 3 điểm rèn luyện
+
+- intent: ask_academic_procedure
+  examples: |
+    - thủ tục học vụ
+    - quy trình học vụ
+
+- intent: ask_diem_ren_luyen
+  examples: |
+    - điểm rèn luyện
+
+- intent: ask_major_tuition
+  examples: |
+    - học phí theo ngành
+
+
+- intent: affirm_more_help
+  examples: |
+    - có hỏi thêm
+    - hỏi tiếp
+
+- intent: deny_more_help
+  examples: |
+    - không hỏi thêm
+    - thôi không hỏi
+
+- intent: procedure_menu
+  examples: |
+    - menu thủ tục
+    - các thủ tục học vụ
+
+- intent: inform_tc_ch
+  examples: |
+    - tín chỉ chuyên ngành
+    - số tín chỉ chuyên ngành
+
+- intent: confirm_ttsv_yes
+  examples: |
+    - có
+    - vâng
+    - được
+    - hướng dẫn giúp mình
+
+- intent: confirm_ttsv_no
+  examples: |
+    - không
+    - không cần
+    - thôi
+
+- intent: confirm_forms_yes
+  examples: |
+    - có
+    - xem biểu mẫu
+    - cho mình xem
+
+- intent: confirm_forms_no
+  examples: |
+    - không
+    - không xem
+
+- intent: confirm_credit_yes
+  examples: |
+    - có
+    - tính tín chỉ
+    - muốn tính
+
+- intent: confirm_credit_no
+  examples: |
+    - không
+    - không tính

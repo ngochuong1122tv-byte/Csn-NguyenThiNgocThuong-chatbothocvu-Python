@@ -2,8 +2,11 @@ version: "3.1"
 
 intents:
   - greet
-  - ask_tuition
+  - ask_tuition_general
+  - ask_tuition_by_credit
   - ask_tuition_credit
+  - ask_tuition
+  - choose_major
   - inform_tc_co_so
   - inform_tc_chuyen_nganh
   - ask_major_tuition
@@ -12,8 +15,6 @@ intents:
   - ask_exam
   - ask_program
   - ask_academic_procedure
-  - affirm
-  - deny
   - nlu_fallback
   - open_form
   - procedure_menu
@@ -24,11 +25,22 @@ intents:
   - ask_diem_ren_luyen
   - drl_quy_trinh
   - drl_phan_loai
+  - drl_su_dung
+  - ask_lich_thi_mon_hoc
+  - inform_number
+  - affirm_more_help
+  - deny_more_help
+  - ask_credit_type
+  - confirm_credit_yes
+  - confirm_credit_no
+  - confirm_ttsv_yes
+  - confirm_ttsv_no
 entities:
   - major
   - form
   - tc_co_so
   - tc_chuyen_nganh
+  - number
 slots:
   major:
     type: text
@@ -36,7 +48,12 @@ slots:
     mappings:
       - type: from_entity
         entity: major
-      
+  confirm_context:
+    type: text
+    influence_conversation: true  
+    mappings:
+      - type: custom
+    
   form:
     type: text
     influence_conversation: false
@@ -51,14 +68,16 @@ slots:
       - type: from_entity
         entity: tc_co_so
 
+
   tc_chuyen_nganh:
     type: float
     influence_conversation: false
     mappings:
       - type: from_entity
         entity: tc_chuyen_nganh
+
 forms:
-  tuition_form:
+  tuition_credit_form:
     required_slots:
       - major
       - tc_co_so
@@ -70,6 +89,10 @@ actions:
   - action_show_procedure
   - action_reset_major
   - action_calculate_tuition_by_major
+  - action_set_credit_context
+  - action_set_ttsv_context
+  - action_set_academic_form_context
+  - action_reset_confirm_context
 
 responses:
 
@@ -87,11 +110,6 @@ responses:
         - title: "Thủ tục học vụ"
           payload: "/ask_academic_procedure"
 
-  utter_ask_tc_co_so:
-    - text: "Bạn đăng ký bao nhiêu tín chỉ cơ sở?"
-
-  utter_ask_tc_chuyen_nganh:
-    - text: "Bạn đăng ký bao nhiêu tín chỉ chuyên ngành?"
 
   utter_show_schedule:
     - text: "Lịch học (TKB) được công bố trên hệ thống sinh viên."
@@ -102,21 +120,20 @@ responses:
   utter_ask_guide_ttsv:
     - text: "Bạn có muốn mình hướng dẫn đăng nhập hệ thống TTSV để xem chi tiết không?"
       buttons:
-        - title: "✅ Có"
-          payload: "/affirm"
-        - title: "❌ Không"
-          payload: "/deny"
+        - title: "Có"
+          payload: "/confirm_ttsv_yes"
+        - title: "Không"
+          payload: "/confirm_ttsv_no"
 
   utter_guide_ttsv:
     - text: |
           Hướng dẫn đăng nhập hệ thống TTSV
-            Truy cập website TTSV của trường  
-            Tên đăng nhập: Mã sinh viên  
-            Mật khẩu: Ngày sinh (dd/mm/yyyy)  
-            Sau khi đăng nhập, chọn mục cần xem
+           + Truy cập website TTSV của trường  
+           + Tên đăng nhập: Mã sinh viên  
+           + Mật khẩu: Ngày sinh (dd/mm/yyyy)  
+           + Sau khi đăng nhập, chọn mục cần xem
 
           Nếu quên mật khẩu, vui lòng liên hệ Phòng Công tác Sinh viên.
-
       buttons:
         - title: "⬅️ Quay lại menu"
           payload: "/greet"
@@ -125,35 +142,81 @@ responses:
 
 
   utter_ask_major_tuition:
-    - text: " Bạn vui lòng chọn ngành để xem học phí:"
+    - text: "Bạn vui lòng chọn ngành để xem học phí:"
       buttons:
         - title: "Công nghệ thông tin"
-          payload: /inform_major{"major":"công nghệ thông tin"}
+          payload: "/inform_major{\"major\":\"Công nghệ thông tin\"}"
         - title: "Kỹ thuật xây dựng"
-          payload: /inform_major{"major":"kỹ thuật xây dựng"}
+          payload: "/inform_major{\"major\":\"Kỹ thuật xây dựng\"}"
         - title: "Ngôn ngữ Anh"
-          payload: /inform_major{"major":"ngôn ngữ anh"}
+          payload: "/inform_major{\"major\":\"Ngôn ngữ anh\"}"
         - title: "Điều dưỡng"
-          payload: /inform_major{"major":"điều dưỡng"}
+          payload: "/inform_major{\"major\":\"Điều dưỡng\"}"
 
+  utter_ask_calculate_credit:
+    - text: " Bạn có muốn tính thử học phí theo số tín chỉ của ngành {major} này không?"
+      buttons:
+        - title: "Có"
+          payload: "/confirm_credit_yes"
+        - title: "Không"
+          payload: "/confirm_credit_no"
+
+  utter_ask_credit_type:
+    - text: "Bạn muốn nhập tín chỉ theo cơ sở hay chuyên ngành?"
+      buttons:
+        - title: "Tín chỉ cơ sở"
+          payload: "/inform_tc_co_so"
+        - title: "Tín chỉ chuyên ngành"
+          payload: "/inform_tc_chuyen_nganh"
+
+
+  utter_ask_tc_co_so:
+    - text: "Bạn đăng ký bao nhiêu tín chỉ cơ sở?"
+      buttons:
+        - title: "0 tín chỉ"
+          payload: '/inform_number{"tc_co_so":0}'
+        - title: "2 tín chỉ"
+          payload: '/inform_number{"tc_co_so":2}'
+        - title: "3 tín chỉ"
+          payload: '/inform_number{"tc_co_so":3}'
+        - title: "6 tín chỉ"
+          payload: '/inform_number{"tc_co_so":6}'
+        - title: "9 tín chỉ"
+          payload: '/inform_number{"tc_co_so":9}'
+
+  utter_ask_tc_chuyen_nganh:
+    - text: "Bạn đăng ký bao nhiêu tín chỉ chuyên ngành?"
+      buttons:
+        - title: "0 tín chỉ"
+          payload: '/inform_number{"tc_chuyen_nganh":0}'
+        - title: "3 tín chỉ"
+          payload: '/inform_number{"tc_chuyen_nganh":3}'
+        - title: "6 tín chỉ"
+          payload: '/inform_number{"tc_chuyen_nganh":6}'
+        - title: "9 tín chỉ"
+          payload: '/inform_number{"tc_chuyen_nganh":9}'
 
 
   utter_ask_more_help:
     - text: "Bạn có muốn hỏi thêm thông tin nào nữa không?"
       buttons:
-        - title: "✅ Có"
+        - title: "✅ có"
           payload: "/affirm_more_help"
-        - title: "❌ Không"
+        - title: "❌ không"
           payload: "/deny_more_help"
+
+  utter_show_academic_forms:
+    - text: "Dưới đây là các biểu mẫu học vụ bạn có thể tham khảo: ..."
 
   utter_ask_view_academic_forms:
     - text: |
         Bạn có muốn xem các biểu mẫu về học vụ này không?
       buttons:
-        - title: Có
-          payload: /affirm_academic
-        - title: Không
-          payload: /deny_academic
+        - title: "Có"
+          payload: "/confirm_forms_yes"
+        - title: "Không"
+          payload: "/confirm_forms_no"
+
 
   utter_ok_no_problem:
     - text: |
@@ -167,6 +230,7 @@ responses:
         Thủ tục học vụ - biểu mẫu sinh viên 
         Vui lòng chọn biểu mẫu bạn muốn xem chi tiết:
       buttons:
+
         - title: "Đơn xin chuyển ngành"
           payload: "/procedure_convert"
         - title: "xin tạm nghỉ / bảo lưu kết quả học tập"
@@ -204,8 +268,9 @@ responses:
         4 Hội đồng cấp Trường xét duyệt, trình Hiệu trưởng.
 
         5 Kết quả được công bố công khai **trước ít nhất 20 ngày**.
-
-        ⬅️ Bạn có thể chọn mục khác bên dưới.
+      buttons:
+        - title: "⬅️ Quay lại menu"
+          payload: "/greet"
 
   utter_drl_phan_loai:
     - text: |
@@ -228,6 +293,9 @@ responses:
         • 50 - <65: Trung bình  
         • 35 - <50: Yếu  
         • <35: Kém
+      buttons:
+        - title: "⬅️ Quay lại menu"
+          payload: "/greet"
 
   utter_drl_su_dung:
     - text: |
@@ -246,7 +314,9 @@ responses:
         ⚠️ SV xếp loại **Yếu/Kém 2 học kỳ liên tiếp**:
         + Lần 1: Tạm ngừng học 1 học kỳ  
         + Lần 2: **Buộc thôi học**
-
+      buttons:
+        - title: "⬅️ Quay lại menu"
+          payload: "/greet"
 
   utter_procedure_menu:
     - text: "Thủ tục học vụ bao gồm:"
@@ -261,13 +331,15 @@ responses:
           payload: "/procedure_drop"
   utter_procedure_convert:
     - text: |
-        Dơn xin chuyển ngành
+        Đơn xin chuyển ngành
 
         <a href="https://ngochuong1122tv-byte.github.io/academic-forms/Don_xin_chuyen_nganh.doc"
            target="_blank">
            👉 Nhấn vào đây để mở biểu mẫu
         </a>
-
+      buttons:
+        - title: "⬅️ Quay lại menu"
+          payload: "/greet"
 
   utter_procedure_reserve:
     - text: |
@@ -277,6 +349,9 @@ responses:
            target="_blank">
            👉 Nhấn vào đây để mở biểu mẫu
         </a>
+      buttons:
+        - title: "⬅️ Quay lại menu"
+          payload: "/greet"
 
   utter_procedure_retake:
     - text: |
@@ -286,6 +361,9 @@ responses:
            target="_blank">
            👉 Nhấn vào đây để mở biểu mẫu
         </a>
+      buttons:
+        - title: "⬅️ Quay lại menu"
+          payload: "/greet"
 
   utter_procedure_drop:
     - text: |
@@ -295,9 +373,13 @@ responses:
            target="_blank">
            👉 Nhấn vào đây để mở biểu mẫu
         </a>
+      buttons:
+        - title: "⬅️ Quay lại menu"
+          payload: "/greet"
+
   utter_ask_major:
     - text: " Bạn đang học ngành nào?"
 
 
   utter_fallback:
-    - text: "Mình chưa hiểu câu hỏi. Bạn hãy chọn một mục bên dưới nhé."
+    - text: "Dữ  liệu này mình chưa được cập nhật. Bạn vui lòng hỏi lại câu hỏi khác nhé."
