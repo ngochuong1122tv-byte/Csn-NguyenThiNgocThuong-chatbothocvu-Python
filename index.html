@@ -110,6 +110,33 @@ body {
   white-space: pre-line;   
 }
 
+/* Buttons container */
+.bot-buttons {
+  display: flex;
+  flex-direction: column;   
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* Button style */
+.bot-buttons button {
+  width: 100%;            
+  text-align: left;         
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: #2563eb;
+  color: white;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.bot-buttons button:hover {
+  background: #1d4ed8;
+}
+
+
 </style>
 </head>
 
@@ -136,7 +163,11 @@ const senderId = "tvu_user";
 
 function startChat() {
   document.getElementById("messages").innerHTML = "";
-  sendMessage("hello", true);
+
+  addMessage(
+    "Chào bạn! Vui lòng nhập <b>chào</b> để bắt đầu tư vấn học vụ.",
+    "bot"
+  );
 }
 
 document.getElementById("userInput").addEventListener("keydown", e => {
